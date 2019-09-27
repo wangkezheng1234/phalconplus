@@ -1,6 +1,8 @@
 namespace PhalconPlus\Logger\Formatter;
 
-class LinePlus extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\FormatterInterface
+use Phalcon\Logger\Item;
+
+class LinePlus extends \Phalcon\Logger\Formatter\Line
 {
     private processors = [];
     // private logLevel = [];
@@ -16,11 +18,17 @@ class LinePlus extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\Form
         //let this->logLevel = array_flip(reflection->getConstants());
     }
 
-    public function format(message, type, timestamp, var context = null) -> string|array
+    public function format(<Item> item) -> string
     {
+        var message, type, timestamp, context;
+        let message = item->getMessage();
+        let type = item->getType();
+        let timestamp = item->getTime();
+        let context = item->getContext();
+
         let this->processors["message"] = message;
         let this->processors["date"] = date("Y-m-d H:i:s", timestamp);
-        let this->processors["type"] = this->getTypeString(type);
+        let this->processors["type"] = item->getName();
 
         var matches = [], result;
         let result = preg_match_all("/%(\w+)%/", this->formatString, matches);

@@ -1,8 +1,10 @@
 namespace PhalconPlus\Logger\Adapter;
 use PhalconPlus\Assert\Assertion as Assert;
-use Phalcon\Logger\AdapterInterface;
+use Phalcon\Logger\Adapter\AbstractAdapter;
+use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Item;
 
-class FilePlus extends \Phalcon\Logger\Adapter\File
+class FilePlus extends Stream
 {
     private type2Handler = [];
     private type2Ext = [];
@@ -35,6 +37,8 @@ class FilePlus extends \Phalcon\Logger\Adapter\File
         // store default file handler with index -1
         let this->type2Handler[-1] = this->_fileHandler;
         let this->type2Ext[-1] = "";
+
+        let this->handler = this->_fileHandler;
     }
 
     private function open(string! filePath)
@@ -46,48 +50,22 @@ class FilePlus extends \Phalcon\Logger\Adapter\File
         }
         return handler;
     }
-
-    // Compatible with PSR-3
-    public function log(var type, var message = null, array! context = null) -> <AdapterInterface>
-	{
-		var handler, toggledType;
-
-		if typeof type == "string" && typeof message == "integer" {
-			let toggledType = message;
-		} else {
-			if typeof type == "string" && typeof message == "null" {
-				let toggledType = message;
-			} else {
-				let toggledType = type;
-			}
-		}
-
-		if typeof toggledType == "null" {
-			let toggledType = \Phalcon\Logger::DEBUG;
-		}
-
-        if fetch handler, this->type2Handler[toggledType] {
-            let this->_fileHandler = handler;
-        } else {
-            let this->_fileHandler = this->type2Handler[-1];
-        }
-
-        return parent::log(type, message, context);
-    }
-
-    /* Not compatibility for PSR3
-    public function log(string! message, int type = \Phalcon\Logger::DEBUG, array context = null)
+    
+    public function process(<Item> item) -> void
     {
-        var handler;
-        if fetch handler, this->type2Handler[type] {
-            let this->_fileHandler = handler;
-        } else {
-            let this->_fileHandler = this->type2Handler[-1];
-        }
-        parent::logInternal(message, type, time(), context);
-    }
-    */
+        var handler, formatter, formattedMessage;
 
+        if fetch handler, this->type2Handler[item->getType()] {
+            // nothing
+        } else {
+            let handler = this->type2Handler[-1];
+        }
+
+        let formatter        = this->getFormatter(),
+            formattedMessage = formatter->format(item);
+
+        fwrite(handler, formattedMessage);
+    }
 
     public function registerExtension(string! ext, array types)
     {

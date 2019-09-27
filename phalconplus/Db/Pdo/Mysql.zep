@@ -8,7 +8,7 @@ class Mysql extends AbstractMysql
             this->connect(descriptor);
         } else {
             %{
-            zephir_unset_property(this_ptr, "_pdo");
+            zephir_unset_property(this_ptr, "pdo");
             }%
         }
 
@@ -18,15 +18,15 @@ class Mysql extends AbstractMysql
 
         var dialectClass, connectionId;
 
-        let connectionId = self::_connectionConsecutive,
-            this->_connectionId = connectionId,
-            self::_connectionConsecutive = connectionId + 1;
+        let connectionId = self::connectionConsecutive,
+            this->connectionId = connectionId,
+            self::connectionConsecutive = connectionId + 1;
 
         /**
          * Dialect class can override the default dialect
          */
         if !fetch dialectClass, descriptor["dialectClass"] {
-            let dialectClass = "phalcon\\db\\dialect\\" . this->_dialectType;
+            let dialectClass = "phalcon\\db\\dialect\\" . this->dialectType;
         }
 
         /**
@@ -39,7 +39,7 @@ class Mysql extends AbstractMysql
                 let this->_dialect = dialectClass;
             }
         }
-        let this->_descriptor = descriptor;
+        let this->descriptor = descriptor;
         
         // ------------------------------------------------------ //
         // end coping
@@ -48,19 +48,19 @@ class Mysql extends AbstractMysql
 
     public function __get(string! prop)
     {
-        if prop == "_pdo" {
+        if prop == "pdo" {
             %{
-            add_property_null_ex(this_ptr, SL("_pdo") TSRMLS_CC);
+            add_property_null_ex(this_ptr, SL("pdo") TSRMLS_CC);
             }%
-            this->connect(this->_descriptor);
-            return this->_pdo;
+            this->connect(this->descriptor);
+            return this->pdo;
         }
         return null;
     }
 
     public function isUnderTransaction() -> boolean
     {
-        string prop = "_pdo";        
+        string prop = "pdo";        
         int isPdoSet = 0;
 
         // var_dump(this);
@@ -76,7 +76,7 @@ class Mysql extends AbstractMysql
          */
         %{
         isPdoSet = Z_OBJ_HT_P(this_ptr)->has_property(this_ptr, &prop, 0, NULL);
-        // isPdoSet = zephir_isset_property(this_ptr, SL("_pdo"));
+        // isPdoSet = zephir_isset_property(this_ptr, SL("pdo"));
         }%
         
         // var_dump(isPdoSet);

@@ -2,7 +2,7 @@
 namespace PhalconPlus\Rpc;
 use Phalcon\DiInterface;
 
-class Yar extends \Phalcon\Application
+class Yar extends \Phalcon\Application\AbstractApplication
 {
 	protected serviceObj = null {
         get

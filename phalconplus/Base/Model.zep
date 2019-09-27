@@ -187,16 +187,16 @@ class Model extends \Phalcon\Mvc\Model
             "page":pagable->getPageNo()
         ]);
 
-        let page = queryBuilder->getPaginate();
+        let page = queryBuilder->paginate();
 
-        if typeof page->items == "object" {
+        if typeof page->getItems() == "object" {
             var hydration;
             if fetch hydration, params["hydration"] {
-                page->items->setHydrateMode(hydration);
+                page->getItems()->setHydrateMode(hydration);
             }
         }
 
-        return new Page(pagable, page->total_items, page->items);
+        return new Page(pagable, page->getTotalItems(), page->getItems());
     }
 
     /**
@@ -295,20 +295,20 @@ class Model extends \Phalcon\Mvc\Model
             }
         }
 
-        if !empty this->_uniqueKey {
-            let this->_uniqueKey = this->_uniqueKey . " AND ";
+        if !empty this->uniqueKey {
+            let this->uniqueKey = this->uniqueKey . " AND ";
         }
         if typeof conditions == "array" {
             merge_append(whereUk, conditions);
-            let this->_uniqueKey = this->_uniqueKey . join(" AND ", whereUk);
+            let this->uniqueKey = this->uniqueKey . join(" AND ", whereUk);
         } elseif typeof conditions == "string" {
             let conditions = join(" AND ", whereUk) . " AND " . conditions;
-            let this->_uniqueKey = this->_uniqueKey . conditions;
+            let this->uniqueKey = this->uniqueKey . conditions;
         }
 
-        let this->_uniqueKey = str_replace(array_values(columnMap), array_keys(columnMap), this->_uniqueKey);
+        let this->uniqueKey = str_replace(array_values(columnMap), array_keys(columnMap), this->uniqueKey);
 
-        var countKeys = substr_count(this->_uniqueKey, "= ?");
+        var countKeys = substr_count(this->uniqueKey, "= ?");
 
         /**
          * Assign bind types
@@ -317,21 +317,21 @@ class Model extends \Phalcon\Mvc\Model
             merge_append(uniqueParams, bind);
         }
 
-        if this->_uniqueParams == null {
-            let this->_uniqueParams = [];
+        if this->uniqueParams == null {
+            let this->uniqueParams = [];
         }
-        merge_append(this->_uniqueParams, uniqueParams);
-        let this->_uniqueParams = array_pad(this->_uniqueParams, countKeys, null);
+        merge_append(this->uniqueParams, uniqueParams);
+        let this->uniqueParams = array_pad(this->uniqueParams, countKeys, null);
 
         if fetch bindTypes, params["bindTypes"] {
             merge_append(uniqueTypes, bindTypes);
         }
 
-        if this->_uniqueTypes == null {
-            let this->_uniqueTypes = [];
+        if this->uniqueTypes == null {
+            let this->uniqueTypes = [];
         }
-        merge_append(this->_uniqueTypes, uniqueTypes);
-        let this->_uniqueTypes = array_pad(this->_uniqueTypes, countKeys, \Phalcon\Db\Column::BIND_SKIP);
+        merge_append(this->uniqueTypes, uniqueTypes);
+        let this->uniqueTypes = array_pad(this->uniqueTypes, countKeys, \Phalcon\Db\Column::BIND_SKIP);
         return true;
     }
 
@@ -416,18 +416,18 @@ class Model extends \Phalcon\Mvc\Model
             return false;
         }
 
-        let this->_uniqueKey = join(" AND ", whereUk),
-        this->_uniqueParams = uniqueParams,
-        this->_uniqueTypes = uniqueTypes;
+        let this->uniqueKey = join(" AND ", whereUk),
+        this->uniqueParams = uniqueParams,
+        this->uniqueTypes = uniqueTypes;
         return true;
     }
 
     public function getUniqueFields()
     {
         return [
-            "key" : this->_uniqueKey,
-            "params" : this->_uniqueParams,
-            "types" : this->_uniqueTypes
+            "key" : this->uniqueKey,
+            "params" : this->uniqueParams,
+            "types" : this->uniqueTypes
         ];
     }
 
@@ -461,21 +461,5 @@ class Model extends \Phalcon\Mvc\Model
             let proto->{property} = this->{method}()->toArray();
         }
         return proto;
-    }
-
-    /**
-     * Gets the connection used to read data for the model
-     *
-     * Check transaction in writeConnection before `_transaction`
-     */
-    public function getReadConnection() -> <AdapterInterface>
-    {
-        var dbConn;
-        let dbConn = this->getWriteConnection();
-        if dbConn->isUnderTransaction() {
-            return dbConn;
-        } else {
-            return parent::getReadConnection();
-        }
     }
 }

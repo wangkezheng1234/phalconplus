@@ -98,14 +98,14 @@ PHP_METHOD(PhalconPlus_Mvc_PsrApplication, __construct) {
 	ZEPHIR_CALL_PARENT(NULL, phalconplus_mvc_psrapplication_ce, getThis(), "__construct", NULL, 0, dependencyInjector);
 	zephir_check_call_status();
 	if (0) {
-		zephir_update_property_zval(this_ptr, SL("_sendHeaders"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("sendHeaders"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("_sendHeaders"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("sendHeaders"), &__$false);
 	}
 	if (0) {
-		zephir_update_property_zval(this_ptr, SL("_sendCookies"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("sendCookies"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("_sendCookies"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("sendCookies"), &__$false);
 	}
 	zephir_update_property_zval(this_ptr, SL("psrRequest"), psrRequest);
 	ZEPHIR_INIT_VAR(&_0);
@@ -186,7 +186,7 @@ PHP_METHOD(PhalconPlus_Mvc_PsrApplication, handle) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_EMPTY(&_0)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalconplus_base_exception_ce, "there is no di(dependency injector) in PsrAppliction", "phalconplus/Mvc/PsrApplication.zep", 42);
 		return;
@@ -205,7 +205,7 @@ PHP_METHOD(PhalconPlus_Mvc_PsrApplication, handle) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalconplus_base_exception_ce, "PsrApplication depends on GuzzleHttp\\Psr7\\Response", "phalconplus/Mvc/PsrApplication.zep", 52);
 		return;
 	}
-	zephir_read_property(&_4, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_4, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_5, this_ptr, SL("nativeRequest"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "request");

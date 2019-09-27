@@ -22,7 +22,7 @@
 
 ZEPHIR_INIT_CLASS(PhalconPlus_Rpc_Yar) {
 
-	ZEPHIR_REGISTER_CLASS_EX(PhalconPlus\\Rpc, Yar, phalconplus, rpc_yar, zephir_get_internal_ce(SL("phalcon\\application")), phalconplus_rpc_yar_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(PhalconPlus\\Rpc, Yar, phalconplus, rpc_yar, zephir_get_internal_ce(SL("phalcon\\application\\abstractapplication")), phalconplus_rpc_yar_method_entry, 0);
 
 	zend_declare_property_null(phalconplus_rpc_yar_ce, SL("serviceObj"), ZEND_ACC_PROTECTED TSRMLS_CC);
 

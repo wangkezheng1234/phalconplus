@@ -20,8 +20,8 @@ class PsrApplication extends BaseApplication
     public function __construct(<DiInterface> dependencyInjector = null, <ServerRequestInterface> psrRequest = null)
     {
         parent::__construct(dependencyInjector);
-        let this->_sendHeaders = false;
-        let this->_sendCookies = false;
+        let this->sendHeaders = false;
+        let this->sendCookies = false;
         let this->psrRequest = psrRequest;
         // Phalcon\Http\Request
         let this->nativeRequest = new \PhalconPlus\Http\PsrRequest(psrRequest);
@@ -38,7 +38,7 @@ class PsrApplication extends BaseApplication
     {
         var psrRequest;
 
-        if empty this->_dependencyInjector {
+        if empty this->container {
             throw new \PhalconPlus\Base\Exception("there is no di(dependency injector) in PsrAppliction");
         }
 
@@ -52,7 +52,7 @@ class PsrApplication extends BaseApplication
             throw new \PhalconPlus\Base\Exception("PsrApplication depends on GuzzleHttp\\Psr7\\Response");
         }
 
-        this->_dependencyInjector->setShared("request", this->nativeRequest);
+        this->container->setShared("request", this->nativeRequest);
 
         // get request uri-path
         var reqUri = psrRequest->getUri()->getPath();

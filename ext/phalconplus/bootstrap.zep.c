@@ -477,7 +477,7 @@ PHP_METHOD(PhalconPlus_Bootstrap, setApp) {
 	ZEPHIR_OBS_VAR(&_0);
 	zephir_read_property(&_0, this_ptr, SL("application"), PH_NOISY_CC);
 	if (EXPECTED(ZEPHIR_IS_EMPTY(&_0))) {
-		_1$$3 = (zephir_instance_of_ev(app, zephir_get_internal_ce(SL("phalcon\\application")) TSRMLS_CC));
+		_1$$3 = (zephir_is_instance_of(app, SL("Phalcon\\Application") TSRMLS_CC));
 		if (!(_1$$3)) {
 			_1$$3 = (zephir_instance_of_ev(app, zephir_get_internal_ce(SL("yar_server")) TSRMLS_CC));
 		}
