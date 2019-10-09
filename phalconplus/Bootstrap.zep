@@ -127,7 +127,7 @@ final class Bootstrap
     public function setApp(object app, boolean autoHandle = false) -> <\PhalconPlus\Bootstrap>
     {
         if likely empty(this->application) {
-            if likely (app instanceof \Phalcon\Application) || (app instanceof \Yar_Server) {
+            if likely (app instanceof \Phalcon\Application\AbstractApplication) || (app instanceof \Yar_Server) {
                 let this->application = app;
                 let this->autoHandle = autoHandle;
             } else {

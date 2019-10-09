@@ -1,7 +1,8 @@
 //<?php
 namespace PhalconPlus\Base;
+// implement \Phalcon\Mvc\ModuleDefinitionInterface
 
-abstract class AbstractModule
+abstract class AbstractModule 
 {
     // <\Phalcon\DI>
     protected di = null;

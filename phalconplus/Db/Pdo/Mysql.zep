@@ -33,10 +33,10 @@ class Mysql extends AbstractMysql
          * Create the instance only if the dialect is a string
          */
         if typeof dialectClass == "string" {
-            let this->_dialect = new {dialectClass}();
+            let this->dialect = new {dialectClass}();
         } else {
             if typeof dialectClass == "object" {
-                let this->_dialect = dialectClass;
+                let this->dialect = dialectClass;
             }
         }
         let this->descriptor = descriptor;

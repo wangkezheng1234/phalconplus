@@ -91,10 +91,10 @@ PHP_METHOD(PhalconPlus_Db_Pdo_Mysql, __construct) {
 			ZEPHIR_CALL_METHOD(NULL, &_2$$6, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
-		zephir_update_property_zval(this_ptr, SL("_dialect"), &_2$$6);
+		zephir_update_property_zval(this_ptr, SL("dialect"), &_2$$6);
 	} else {
 		if (Z_TYPE_P(&dialectClass) == IS_OBJECT) {
-			zephir_update_property_zval(this_ptr, SL("_dialect"), &dialectClass);
+			zephir_update_property_zval(this_ptr, SL("dialect"), &dialectClass);
 		}
 	}
 	zephir_update_property_zval(this_ptr, SL("descriptor"), &descriptor);
